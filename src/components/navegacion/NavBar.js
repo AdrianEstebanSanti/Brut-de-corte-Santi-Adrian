@@ -1,4 +1,5 @@
 import React from 'react'
+import CartWidget from '../paginas/CartWidget'
 
 
 const NavBar = () => {
@@ -15,10 +16,20 @@ const NavBar = () => {
              </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav mx-auto ">
-                    <a className="nav-link active" aria-current="page" href='/' >Inicio</a>
-                    <a className="nav-link" href='/' >Cata de Vinos</a>
+                    <li className="nav-item dropdown">
+                      <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         Cata de Vinos
+                      </a>
+                       <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a className="dropdown-item" href="#">Malbec</a></li>
+                        <li><a className="dropdown-item" href="#">Cabernet Sauvignon</a></li>
+                        <li><a className="dropdown-item" href="#">Chardonnay</a></li>
+                        <li><a className="dropdown-item" href="#">Merlot</a></li>
+                      </ul>
+                    </li>
                     <a className="nav-link" href='/' >Elaborá tu Vino</a>
                     <a className="nav-link" href='/'>Tienda</a>
+                    <CartWidget/>
                  </div>
             </div>
           </div>
