@@ -1,5 +1,5 @@
 import React from 'react'
-import CartWidget from '../paginas/CartWidget'
+import CartWidget from '../pages/CartWidget'
 
 
 const NavBar = () => {
