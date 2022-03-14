@@ -61,3 +61,10 @@ div h2 {
   width: 170px;
   border-radius: 6px;
 }
+
+.card{
+  width: 18rem;
+  border-radius: 4px;
+  box-shadow: purple 0px 8px 8px;
+}
+

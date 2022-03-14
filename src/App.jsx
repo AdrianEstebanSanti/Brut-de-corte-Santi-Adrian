@@ -3,14 +3,21 @@ import './App.css';
 
 import NavBar from './components/navbar/NavBar';
 
-import ItemListContainer from './components/pages/ItemListContainer';
+import ItemListContainer from './components/ItemListContainer';
 
 function App() {
   return (
     
       <div className='App'>
         <NavBar/>
-        <ItemListContainer item1='Malbec' item2='Cabernet Sauvignon' item3='Chardonnay' item4='Merlot'/>
+        <div>
+        
+          <ItemListContainer/>
+          
+            
+           
+        </div>
+        
       </div>
       
     

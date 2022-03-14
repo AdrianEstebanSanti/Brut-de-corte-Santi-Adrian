@@ -1,5 +1,5 @@
 import React from 'react'
-import CartWidget from '../pages/CartWidget'
+import CartWidget from '../CartWidget'
 
 
 const NavBar = () => {
@@ -14,8 +14,8 @@ const NavBar = () => {
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
              </button>
-            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div className="navbar-nav mx-auto ">
+            <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                <div className="navbar-nav ">
                     <li className="nav-item dropdown">
                       <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                          Cata de Vinos
