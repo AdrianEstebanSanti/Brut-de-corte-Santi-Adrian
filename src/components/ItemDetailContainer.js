@@ -8,7 +8,7 @@ function ItemDetailContainer() {
     // const [loading, setLoading] = useState (false)
 
     const productos=[
-    {id:"1", producto:"Brut de Corte Malbec", descripcion:"Típico malbec de San Rafael. La expresión total del varietal.", stock: "10", precio:"$500", imagen: "https://i.postimg.cc/HWJ9wWfc/Malbec-Coleccion-2020.png"},]
+    {id:"1", producto:"Brut de Corte Malbec", descripcion:"Típico malbec de San Rafael. La expresión total del varietal.", maridaje:"Acompaña muy bien a las carnes rojas, carnes a la parrilla, quesos duros y pastas con salsa de tomate.", stock: "10", precio:"$500", imagen: "https://i.postimg.cc/HWJ9wWfc/Malbec-Coleccion-2020.png"},]
 
     const getProducts= new Promise ((resolve, reject)=>{
 

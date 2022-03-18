@@ -13,7 +13,7 @@ function App() {
         <NavBar/>
         <div>
         
-          {/* <ItemListContainer/> */}
+          <ItemListContainer/>
           <ItemDetailContainer/>
           
             
