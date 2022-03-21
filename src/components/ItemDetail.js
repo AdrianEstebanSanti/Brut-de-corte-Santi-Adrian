@@ -1,6 +1,8 @@
 import React from 'react'
 import ItemCount from './ItemCount'
 
+
+
 function ItemDetail({lista}) {
     const onAdd = () =>{
         console.log ('agregar carrito')
