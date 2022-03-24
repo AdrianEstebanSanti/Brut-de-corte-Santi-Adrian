@@ -1,6 +1,6 @@
 import React from 'react'
-import Item from './Item'
-import ItemListContainer from './ItemListContainer'
+import Item from '../Item/Item'
+
 
 
 

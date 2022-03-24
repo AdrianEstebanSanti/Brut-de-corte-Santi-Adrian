@@ -1,11 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import ItemCount from './ItemCount'
+
 
 function Item({producto}) {
-  const onAdd = () =>{
-    console.log ('agregar carrito')
-  }
+  
 
   return (
     
@@ -17,7 +15,7 @@ function Item({producto}) {
               <h5 className="card-title">{producto.producto}</h5>
               <h4 className="card-subtitle mb-2 text-muted">{producto.precio}</h4>
               <Link to={`/detalle/${producto.id}`}><button type="button" className="btn btn-secondary mt-4" >Ver más</button></Link>
-              <ItemCount stock={producto.stock} initial={1} onAdd={onAdd}/>
+              
             </div>
         </div>
       </div>

@@ -1,11 +1,17 @@
-import React from 'react'
-import ItemCount from './ItemCount'
+import React, {useState} from 'react'
+import ItemCount from '../ItemCount/ItemCount'
+
 
 
 
 function ItemDetail({lista}) {
+  const [count, setCount] = useState (0)
     const onAdd = () =>{
-        console.log ('agregar carrito')
+        const itemToCart ={
+          lista,
+          count
+        }
+        console.log (itemToCart)
       }
   return (
     <div className='container'>
@@ -13,7 +19,7 @@ function ItemDetail({lista}) {
         {lista.map((productos)=><div key={productos.id}className="card mb-3 w-75 " >
                                   <div className="row g-0">
                                       <div className="col-md-4">
-                                        <img src={productos.imagen} className="img-fluid rounded-start"/>
+                                        <img src={productos.image} className="img-fluid rounded-start"/>
                                       </div>
                                     <div className="col-md-8">
                                         <div className="card-body">
@@ -24,7 +30,13 @@ function ItemDetail({lista}) {
                                           <h3 className="card-subtitle mt-2 text-muted">{productos.precio}</h3>
                                         </div>
                                         <div >
-                                              <ItemCount stock={productos.stock} initial={1} onAdd={onAdd}/>
+                                              <ItemCount 
+                                              stock={productos.stock} 
+                                              // initial={1} 
+                                              onAdd={onAdd} 
+                                              count={count}
+                                              setCount={setCount}
+                                               />
                                         </div>
                                     </div>
                                   </div>

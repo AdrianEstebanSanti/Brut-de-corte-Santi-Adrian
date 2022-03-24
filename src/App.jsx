@@ -6,15 +6,15 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import NavBar from './components/navbar/NavBar';
 
-import ItemListContainer from './components/ItemListContainer';
-import ItemDetailContainer from './components/ItemDetailContainer';
+import ItemListContainer from './components/ItemListContainer/ItemListContainer';
+import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer';
 import {
   BrowserRouter,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import ItemDetail from './components/ItemDetail';
+
 
 function App() {
   return (
