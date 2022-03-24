@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const NavBar = () => {
   return (
-    <div className='App'>
+    <div >
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
             <a href='/'>

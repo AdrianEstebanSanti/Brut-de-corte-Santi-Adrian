@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
-import ItemDetail from '../ItemDetail/ItemDetail'
+import {ItemDetail} from '../ItemDetail/ItemDetail'
 import {stockProductos} from '../Stock/Stock'
 
 function ItemDetailContainer() {
@@ -30,21 +30,15 @@ function ItemDetailContainer() {
     useEffect(()=>{
       
       getProducts.then((respuesta)=> {
-      setProducts(respuesta.filter((productos)=> productos.id === Number(itemId)))
+      setProducts(respuesta.find((productos)=> productos.id === Number(itemId)))
     })
       .catch((error)=> console.log(error))
     },[itemId])
 
-
-    
-    // if (loading) return <div className="spinner-border" role="status">
-    //                         <span className="visually-hidden"></span>
-    //                     </div>
-
   return (
     <div>
       
-      <ItemDetail lista={products}/>
+      <ItemDetail {...products}/>
       
     </div>
   )

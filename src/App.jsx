@@ -1,8 +1,6 @@
-import logo from './logo.svg';
+
 import './App.css';
 
-
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import NavBar from './components/navbar/NavBar';
 
