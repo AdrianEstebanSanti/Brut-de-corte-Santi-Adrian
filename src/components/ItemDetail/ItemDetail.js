@@ -1,20 +1,33 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
+import { CartContex } from '../CartContex/CartContex'
 import ItemCount from '../ItemCount/ItemCount'
+import { Link } from 'react-router-dom'
 
 
 
 
 export const ItemDetail = ({image, id, producto, descripcion, maridaje, precio, stock})=>{
-  const [count, setCount] = useState (0)
+
+  const [cantidad, setCantidad] = useState (0)
+
+  const {addCart, isInCart} = useContext(CartContex)
+
     const onAdd = () =>{
-        const itemToCart ={
-          id,
-          count,
-          producto,
-          precio,
-          stock,
+      if(cantidad === 0) return
+
+        if(!isInCart(id)){
+          const itemToCart ={
+            id,
+            cantidad,
+            producto,
+            precio,
+            stock,
+          }
+
+          addCart(itemToCart)
+          console.log(itemToCart)
         }
-        console.log (itemToCart)
+        
       }
   return (
     <div className='container'>
@@ -33,13 +46,38 @@ export const ItemDetail = ({image, id, producto, descripcion, maridaje, precio, 
                   <h3 className="card-subtitle mt-2 text-muted">{precio}</h3>
                 </div>
                     <div >
+                      {
+                        isInCart(id)
+                        ?<div className='d-grid gap-2 d-md-flex justify-content-md-center mt-4'>
+                            <Link to='../Cart/Cart.js'><button type='button' className='btn btn-primary'>
+                              Finalizar Compra
+                              </button>
+                            </Link>
+                            
+                            <Link to='/'><button type='button' className='btn btn-primary'>
+                              Seguir comprando
+                              </button>
+                            </Link>
+                          </div>
+                  
+                        :
+                        
+                        <>
                           <ItemCount 
                           stock={stock} 
-                          // initial={1} 
-                          onAdd={onAdd} 
-                          count={count}
-                          setCount={setCount}
+                          count={cantidad}
+                          setCount={setCantidad}
                           />
+
+                          <button 
+                          className='onAdd btn btn-primary' 
+                          onClick={onAdd}
+                          disabled={cantidad === 0} >
+                            Añadir al Carrito
+                          </button>
+                        </>
+
+                      }
                     </div>
             </div>
           </div>

@@ -69,3 +69,10 @@ div h2 {
   text-align: center;
 }
 
+.cartWidget{
+  visibility: visible;
+}
+
+.cart-hidden{
+  visibility: hidden;
+}
