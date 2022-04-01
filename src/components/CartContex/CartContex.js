@@ -6,27 +6,27 @@ export const CartContex = createContext ()
 export const CartContexProvider = ({children})=>{
     const [productosCarrito, setProductosCarrito] = useState([]);
 
-    // agregar cierta cantidad de un ítem al carrito
+  
     const addItem = (item, quantity)=>{
         if(isInCart(item.id)){
-            //el producto ya existe
+           
             const newProducts = [...productosCarrito];
-            //buscamos la posicion del producto dentro del arreglo.
+            
             const productIndex = newProducts.findIndex(prod=>prod.item.id === item.id);
-            //index del producto
+           
             console.log(newProducts[productIndex]);
             newProducts[productIndex].quantity = newProducts[productIndex].quantity + quantity;
-            //cantidad actualizada del producto que se repite
+          
             console.log('productos actualizado',newProducts);
             setProductosCarrito(newProducts);
         } else{
-            //el producto no ha sido agregado
+            
             const newProduct = {
                 item,
                 quantity
             }
             console.log('newProduct',newProduct)
-            //agregamos el nuevo producto al carrito
+           
             setProductosCarrito([...productosCarrito, newProduct]);
         }
     }
@@ -37,24 +37,51 @@ export const CartContexProvider = ({children})=>{
     //     setCart([...cart, item])
     // }
 
-    const isInCart = (id)=>{
-        return productosCarrito.some((producto)=> producto.id === id)
-    }
-
-    // const quantityCart = ()=>{
-    //     return cart.reduce((acc, producto)=> acc + producto.cantidad, 0)
+    // const isInCart = (id)=>{
+    //     return productosCarrito.some((producto)=> producto.id === id)
     // }
 
-    const totalCart = ()=>{
-        return productosCarrito.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0)
+    // // const quantityCart = ()=>{
+    // //     return cart.reduce((acc, producto)=> acc + producto.cantidad, 0)
+    // // }
+
+    // const totalCart = ()=>{
+    //     return productosCarrito.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0)
+    // }
+
+    // const clear = ()=>{
+    //     setProductosCarrito([])
+    // }
+
+    // const removeItem = (id)=>{
+    //     setProductosCarrito(productosCarrito.filter((producto)=> producto.id !== id))
+    // }
+
+
+    const removeItem = (itemId)=>{
+        console.log('itemId', itemId);
+        const nuevosProductos = productosCarrito.filter(producto=>producto.item.id !== itemId);
+        console.log('nuevosProductos',nuevosProductos)
+        setProductosCarrito(nuevosProductos);
+    }
+       // Remover todos los items
+       const clear = ()=>{
+        setProductosCarrito([]);
     }
 
-    const clear = ()=>{
-        setProductosCarrito([])
+    // valida si un producto ya existe en el carrito
+    const isInCart = (id) =>{
+        return productosCarrito.some(producto=>producto.item.id === id);
     }
 
-    const removeItem = (id)=>{
-        setProductosCarrito(productosCarrito.filter((producto)=> producto.id !== id))
+    const getTotalCount = ()=>{
+        const totalCount = productosCarrito.reduce((acc,item)=>acc+item.quantity,0)
+        return totalCount;
+    }
+
+    const getTotalPrice = ()=>{
+        const totalPrice = productosCarrito.reduce((acc,prod)=>acc+(prod.quantity*prod.item.precio),0)
+        return totalPrice;
     }
 
     return(
@@ -62,9 +89,10 @@ export const CartContexProvider = ({children})=>{
             productosCarrito,
             addItem,
             isInCart,
-            totalCart,
+            getTotalCount,
             clear,
-            removeItem
+            getTotalPrice,
+            removeItem,
             }
         }>
 
