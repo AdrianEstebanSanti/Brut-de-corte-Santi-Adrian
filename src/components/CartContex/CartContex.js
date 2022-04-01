@@ -31,45 +31,18 @@ export const CartContexProvider = ({children})=>{
         }
     }
 
-    // const [cart, setCart] = useState([])
-    
-    // const addItem = (item)=>{
-    //     setCart([...cart, item])
-    // }
-
-    // const isInCart = (id)=>{
-    //     return productosCarrito.some((producto)=> producto.id === id)
-    // }
-
-    // // const quantityCart = ()=>{
-    // //     return cart.reduce((acc, producto)=> acc + producto.cantidad, 0)
-    // // }
-
-    // const totalCart = ()=>{
-    //     return productosCarrito.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0)
-    // }
-
-    // const clear = ()=>{
-    //     setProductosCarrito([])
-    // }
-
-    // const removeItem = (id)=>{
-    //     setProductosCarrito(productosCarrito.filter((producto)=> producto.id !== id))
-    // }
-
-
     const removeItem = (itemId)=>{
         console.log('itemId', itemId);
         const nuevosProductos = productosCarrito.filter(producto=>producto.item.id !== itemId);
         console.log('nuevosProductos',nuevosProductos)
         setProductosCarrito(nuevosProductos);
     }
-       // Remover todos los items
+      
        const clear = ()=>{
         setProductosCarrito([]);
     }
 
-    // valida si un producto ya existe en el carrito
+   
     const isInCart = (id) =>{
         return productosCarrito.some(producto=>producto.item.id === id);
     }

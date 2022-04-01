@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { Link } from "react-router-dom"
 import { CartContex } from "../CartContex/CartContex"
 
 
@@ -35,7 +36,7 @@ return (
                         </div>
                         <div className="col-4 ">
                             <div className="d-flex align-items-center justify-content-center border-bottom h-100 pb-2 pt-3">
-                                <p>${item.quantity * item.item.precio}</p>
+                                <p>Total: ${item.quantity * item.item.precio}</p>
                             </div>
                         </div>
                         <div className="col-2">
@@ -44,18 +45,21 @@ return (
                             </div>
 
                         </div>
-                        
-
-
                     </div>
             )}
             
-
-        
+                <div>
+                <Link to='/'>
+                    <button type='button'
+                        className='btn btn-primary mt-4'>
+                        Volver
+                    </button>
+                  </Link>
+                </div>
+                
     </div>
     </>
     )
-
 }
 
 
