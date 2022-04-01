@@ -13,7 +13,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { CartContexProvider } from './components/CartContex/CartContex';
-import  {Cart}  from './components/Cart/Cart';
+import  Cart  from './components/Cart/Cart';
 
 
 function App() {

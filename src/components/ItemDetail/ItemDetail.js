@@ -6,82 +6,69 @@ import { Link } from 'react-router-dom'
 
 
 
-export const ItemDetail = ({image, id, producto, descripcion, maridaje, precio, stock})=>{
 
-  const [cantidad, setCantidad] = useState (0)
+export const ItemDetail = ({item})=>{
+  const [stockProducto, setStockProducto] = useState(10);
 
-  const {addCart, isInCart} = useContext(CartContex)
+  const carritoContext = useContext(CartContex);
 
-    const onAdd = () =>{
-      if(cantidad === 0) return
+  console.log('carritoContext', carritoContext);
 
-        if(!isInCart(id)){
-          const itemToCart ={
-            id,
-            cantidad,
-            producto,
-            precio,
-            stock,
-          }
+  const [productosAgregados, setProductosAgregados] = useState(0);
+  
 
-          addCart(itemToCart)
-          console.log(itemToCart)
-        }
-        
-      }
+  const onAdd = (quantityToAdd)=>{
+      setProductosAgregados(quantityToAdd)
+      setStockProducto(stockProducto - quantityToAdd);
+      carritoContext.addItem(item, quantityToAdd);}
+  
+      
   return (
     <div className='container'>
       <div className=' row row-cols-1 row-cols-md-3 g-4 mt-4'>
         <div className="card mb-3 w-75 " >
           <div className="row g-0">
               <div className="col-md-4">
-                <img src={image} className="img-fluid rounded-start" alt={producto}/>
+                <img src={item.image} className="img-fluid rounded-start" alt={item.producto}/>
               </div>
             <div className="col-md-8">
                 <div className="card-body">
-                  <h4 className="card-title mt-2">{producto}</h4>
-                  <p className="card-text m-0">{descripcion}</p>
-                  <p className="card-text ">{maridaje}</p>
-                  <p className="card-text"><small className="text-muted">Stock disponible: {stock}</small></p>
-                  <h3 className="card-subtitle mt-2 text-muted">{precio}</h3>
+                  <h4 className="card-title mt-2">{item.producto}</h4>
+                  <p className="card-text m-0">{item.descripcion}</p>
+                  <p className="card-text ">{item.maridaje}</p>
+                  
+                  <h3 className="card-subtitle mt-2 text-muted">${item.precio}</h3>
                 </div>
                     <div >
+                    <ItemCount 
+                          stock={stockProducto} 
+                          onAdd={onAdd}
+
+                          />
+                    
                       {
-                        isInCart(id)
-                        ?<div className='d-grid gap-2 d-md-flex justify-content-md-center mt-4'>
-                            <Link to='../Cart/Cart.js'><button type='button' className='btn btn-primary'>
+                        productosAgregados >0 &&
+                        <div className='d-grid gap-2 d-md-flex justify-content-md-center mt-4 mb-4'>
+                            <Link to='/Compra'><button type='button' className='btn btn-primary'>
                               Finalizar Compra
                               </button>
                             </Link>
                             
-                            <Link to='/'><button type='button' className='btn btn-primary'>
-                              Seguir comprando
-                              </button>
-                            </Link>
                           </div>
-                  
-                        :
-                        
-                        <>
-                          <ItemCount 
-                          stock={stock} 
-                          count={cantidad}
-                          setCount={setCantidad}
-                          />
-
-                          <button 
-                          className='onAdd btn btn-primary' 
-                          onClick={onAdd}
-                          disabled={cantidad === 0} >
-                            Añadir al Carrito
-                          </button>
-                        </>
 
                       }
                     </div>
             </div>
           </div>
-        </div>                        
+        </div>  
+              <div>
+                  <Link to='/'>
+                    <button type='button'
+                        className='btn btn-primary mt-4'>
+                        Volver
+                    </button>
+                  </Link>
+              </div>
       </div>
     </div>
   )
