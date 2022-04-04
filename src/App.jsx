@@ -29,6 +29,7 @@ function App() {
             <Route path='/detalle/:itemId' element= {<ItemDetailContainer/>}/>
             <Route path='/compra' element={<Cart/>}/>
             <Route path='*' element={<Navigate to='/'/>}/>
+            <Route path='/firebase' element={<firebaseComponent/>}/>
               
         </Routes> 
       </BrowserRouter>

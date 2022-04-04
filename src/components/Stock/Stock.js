@@ -12,7 +12,8 @@ export const stockProductos = [
     {   id:2, 
         producto:"Brut de Corte Merlot",
         descripcion:"Gran merlot de San Rafael. Expresión perfecta de los vinos de bordeux.",
-        stock: 15, precio:500, 
+        stock: 15, 
+        precio:500, 
         image: "https://i.postimg.cc/ZY1FVtSf/Merlot-Colecci-n-2020.png", 
         categoria:"merlot"
         },
