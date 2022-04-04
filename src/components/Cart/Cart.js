@@ -6,7 +6,7 @@ import { CartContex } from "../CartContex/CartContex"
 
 const Cart = () =>{
     
-const {productosCarrito, removeItem, clear} = useContext(CartContex)
+const {productosCarrito, removeItem, clear, getTotalPrice} = useContext(CartContex)
 console.log('cart', productosCarrito)
 return (
     <> 
@@ -50,13 +50,16 @@ return (
             )}
             
                 <div>
-                    <div className="d-flex justify-content-start">
-                    <Link to='/'>
-                    <button type='button'
-                        className='btn btn-primary mt-4'>
-                        Volver
-                    </button>
-                     </Link>
+                    <div className="d-flex justify-content-between mx-auto align-items-center">
+                        <Link to='/'>
+                        <button type='button'
+                            className='btn btn-primary mt-4'>
+                            Volver
+                        </button>
+                        </Link>
+                        <h1 className="mt-4">
+                            Total: ${getTotalPrice()}
+                        </h1>
                     </div>
                     
                   <div className="d-flex  justify-content-end">
