@@ -1,3 +1,4 @@
+import { clear } from "@testing-library/user-event/dist/clear"
 import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import { CartContex } from "../CartContex/CartContex"
@@ -5,7 +6,7 @@ import { CartContex } from "../CartContex/CartContex"
 
 const Cart = () =>{
     
-const {productosCarrito, removeItem} = useContext(CartContex)
+const {productosCarrito, removeItem, clear} = useContext(CartContex)
 console.log('cart', productosCarrito)
 return (
     <> 
@@ -49,12 +50,27 @@ return (
             )}
             
                 <div>
-                <Link to='/'>
+                    <div className="d-flex justify-content-start">
+                    <Link to='/'>
                     <button type='button'
                         className='btn btn-primary mt-4'>
                         Volver
                     </button>
-                  </Link>
+                     </Link>
+                    </div>
+                    
+                  <div className="d-flex  justify-content-end">
+                        <button type="button" onClick={()=>clear()}
+                        className="btn btn-danger mt-4 me-2">
+                            Vaciar carrito
+                        </button>
+                        <button type="button"
+                        className="btn btn-primary mt-4 ">
+                            Finalizar Compra
+                        </button>
+
+                  </div>
+                  
                 </div>
                 
     </div>
