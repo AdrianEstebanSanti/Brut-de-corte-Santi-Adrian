@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import { CartContexProvider } from './components/CartContex/CartContex';
 import  Cart  from './components/Cart/Cart';
+import Checkout from './components/Checkout/Checkout';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path='/compra' element={<Cart/>}/>
             <Route path='*' element={<Navigate to='/'/>}/>
             <Route path='/firebase' element={<firebaseComponent/>}/>
+            <Route path='/Checkout' element={<Checkout/>}/>
               
         </Routes> 
       </BrowserRouter>

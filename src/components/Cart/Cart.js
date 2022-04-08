@@ -67,10 +67,13 @@ return (
                         className="btn btn-danger mt-4 me-2">
                             Vaciar carrito
                         </button>
-                        <button type="button"
-                        className="btn btn-primary mt-4 ">
-                            Finalizar Compra
-                        </button>
+                        <Link to='/Checkout'>
+                            <button type="button"
+                                 className="btn btn-primary mt-4 ">
+                                Finalizar Compra
+                            </button>
+                        </Link>
+                      
 
                   </div>
                   
