@@ -2,13 +2,15 @@ import { collection, Timestamp, addDoc } from 'firebase/firestore'
 import React, { useContext } from 'react'
 import { CartContex } from '../CartContex/CartContex'
 import { db } from "../../utils/firebase";
-import { useForm } from "react-hook-form";
+
 
 
 
 function Checkout() {
     const {productosCarrito, getTotalPrice} = useContext(CartContex)
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    
+
+    
 
    
     const sendOrder = async(e)=>{
@@ -34,48 +36,56 @@ function Checkout() {
        
     }
 
+          
+    
+    
 
   return (
     <div className='container mt-4 '>
         
-        <form onSubmit={sendOrder} className='col-md-8'>
-            
+        <form onSubmit={sendOrder} className='col-md-8 needs-validation'>
+            <div>
+            <label for="validationCustom01" class="form-label mt-2">Nombre:</label>
             <input 
                     className="form-control my-2"
                     type='text'
                     placeholder="Tu nombre"
                     name='name'
-                    {...register("nombre", { required: true, maxLength: 20, message: "Necesitas este campo" })}
+                    required
                 />
-               {errors.nombre && <span>necesitas ese campo</span>}
-            
+               <div class="valid-feedback">¡Campo válido!</div>
+                <div class="invalid-feedback">Debe completar los datos.</div>
+            </div>
                 
+            
+            <div>
+            <label for="validationCustom02" class="form-label mt-2">Email:</label>
                 <input
-                    className="form-control my-2"
-                    type='email'
-                    placeholder="ejemplo@gmail.com"
-                    name='email'
-                    {...register("email", {
-                        required: {
-                          value: true,
-                          message: "Necesitas este campo"
-                        },
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                          message: "El formato no es correcto"
-                        }
-                    })}
-                />
-                 {errors.email && <span>{errors.email.message}</span>}
-                <input
+                        className="form-control my-2"
+                        type='email'
+                        placeholder="ejemplo@gmail.com"
+                        name='email'
+                        required
+                    />
+                    <div class="valid-feedback">¡Campo válido!</div>
+                <div class="invalid-feedback">Debe completar los datos.</div>
+            </div>  
+                
+            <div>
+            <label for="validationCustom03" class="form-label mt-2">Teléfono:</label>
+            <input
                     className="form-control my-2"
                     type='tel'
                     placeholder="Tu teléfono"
                     name='phone'
-
+                    required
                 />
+                <div class="valid-feedback">¡Campo válido!</div>
+                <div class="invalid-feedback">Debe completar los datos.</div>
+            </div>     
+                
 
-                <button type="submit" className="btn btn-primary mt-4">
+                <button type="submit"  className="btn btn-primary mt-4">
                     Enviar
                 </button>
             </form>
