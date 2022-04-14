@@ -1,13 +1,15 @@
-import { collection, Timestamp, addDoc} from 'firebase/firestore'
+import { collection, Timestamp, addDoc, writeBatch, query, where, documentId, getDocs} from 'firebase/firestore'
 import React, { useContext, useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom';
 import { CartContex } from '../CartContex/CartContex'
 import { db } from "../../utils/firebase";
-
+import { MensajeCompraID } from './MensajeCompraID';
+import * as yup from 'yup';
 
 
 
 function Checkout() {
-    const {productosCarrito, getTotalPrice} = useContext(CartContex)
+    const {productosCarrito, getTotalPrice, clear} = useContext(CartContex)
     const [user, setUser] = useState({name:'', phone:'', email:''});
     
     const campos = [
@@ -16,6 +18,8 @@ function Checkout() {
         {title: 'Email', inputName: 'email',placeholder:'ejemplo@gmail.com',type:'emal'},
     ]
 
+    const [orderId, setOrderId] = useState(null)
+
     
     const onChangeInput = (e)=>{
         
@@ -23,9 +27,10 @@ function Checkout() {
        }
        console.log(user)
 
+
     const sendOrder = async(e)=>{
         e.preventDefault ();
-        console.log('hola')
+        
 
        const nombre = user.name;
         const phone = user.phone;
@@ -42,11 +47,45 @@ function Checkout() {
             date: Timestamp.fromDate(new Date())
             
         }
-        console.log('time', sendOrder)
+        const batch = writeBatch(db)
         const ordersCollection = collection(db, 'orders');
-        const docReference = await addDoc (ordersCollection, newOrder);
+        const productRef = collection(db, 'items')
+
+        const q = query(productRef, where(documentId(), 'in', productosCarrito.map((el) => el.id)))
+        const productos = await getDocs (q);
+        const outOfStock = [];
+        console.log('query', sendOrder)
+
+        productos.docs.forEach((doc)=>{
+            const item = productosCarrito.find((el)=> el.id === doc.id)
+            if (doc.data().stock >= item.quantity){
+                batch.update(doc.ref, {
+                    stock: doc.data().stock - item.quantity
+
+                })
+            }else{
+                outOfStock.push(item)
+            }
+        })
+
+        if (outOfStock.length===0) {
+            addDoc(ordersCollection, newOrder)
+            .then((doc)=>{
+                batch.commit()
+                setOrderId(doc.id)
+                clear()
+            })
+        }   else{
+            alert ('items sin stock')
+        }
     }
-      
+    if (orderId) {
+        return <MensajeCompraID order={orderId}/>
+    }
+    
+    if (productosCarrito.length === 0) {
+        return <Navigate to="/"/>
+    }
   return (
       <div className='container registry'>
 
@@ -72,7 +111,7 @@ function Checkout() {
         </div>))}
 
         <button
-         data-bs-toggle="modal" data-bs-target="#exampleModal"
+        //  data-bs-toggle="modal" data-bs-target="#exampleModal"
          type="submit"  
          className="btn btn-primary "
          disabled={
@@ -83,7 +122,7 @@ function Checkout() {
         </form>
 
                     
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            {/* <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
                 <div className="modal-header">
@@ -99,7 +138,7 @@ function Checkout() {
                 </div>
                 </div>
             </div>
-            </div>
+            </div> */}
                                    
     </div> 
     </div> ) 
