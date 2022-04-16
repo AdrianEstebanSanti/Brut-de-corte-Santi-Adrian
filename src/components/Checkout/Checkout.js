@@ -1,5 +1,5 @@
 import { collection, Timestamp, addDoc, writeBatch, query, where, documentId, getDocs} from 'firebase/firestore'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Navigate } from 'react-router-dom';
 import { CartContex } from '../CartContex/CartContex'
 import { db } from "../../utils/firebase";
@@ -9,13 +9,13 @@ import * as yup from 'yup';
 
 
 function Checkout() {
-    const {productosCarrito, getTotalPrice, clear} = useContext(CartContex)
+    const {productosCarrito, getTotalPrice, clear,} = useContext(CartContex)
     const [user, setUser] = useState({name:'', phone:'', email:''});
     
     const campos = [
         {title: 'Nombre', inputName: 'name', placeholder:'Tu nombre', type:'text'},
         {title: 'Telefono', inputName: 'phone',placeholder:'teléfono',type:'text'},
-        {title: 'Email', inputName: 'email',placeholder:'ejemplo@gmail.com',type:'emal'},
+        {title: 'Email', inputName: 'email',placeholder:'ejemplo@gmail.com',type:'email'},
     ]
 
     const [orderId, setOrderId] = useState(null)
@@ -51,13 +51,13 @@ function Checkout() {
         const ordersCollection = collection(db, 'orders');
         const productRef = collection(db, 'items')
 
-        const q = query(productRef, where(documentId(), 'in', productosCarrito.map((el) => el.id)))
+        const q = query(productRef, where(documentId(), 'in', productosCarrito.map((item) => item.item.id)))
         const productos = await getDocs (q);
         const outOfStock = [];
         console.log('query', sendOrder)
 
         productos.docs.forEach((doc)=>{
-            const item = productosCarrito.find((el)=> el.id === doc.id)
+            const item = productosCarrito.find((item)=> item.item.id === doc.id)
             if (doc.data().stock >= item.quantity){
                 batch.update(doc.ref, {
                     stock: doc.data().stock - item.quantity
@@ -74,11 +74,13 @@ function Checkout() {
                 batch.commit()
                 setOrderId(doc.id)
                 clear()
+                console.log(doc.id)
             })
         }   else{
             alert ('items sin stock')
         }
     }
+
     if (orderId) {
         return <MensajeCompraID order={orderId}/>
     }

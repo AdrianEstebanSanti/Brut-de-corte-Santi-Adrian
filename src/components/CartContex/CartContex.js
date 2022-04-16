@@ -66,6 +66,7 @@ export const CartContexProvider = ({children})=>{
             clear,
             getTotalPrice,
             removeItem,
+            
             }
         }>
 
