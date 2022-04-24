@@ -86,8 +86,8 @@ function Checkout() {
                         onBlur={validacion}
                         required
                     />
-                    {errorName.valido == false && (<Form.Text className="text-danger">El nombre solo puede contener letras y espacios.</Form.Text>)} 
-                    {errorName.valido == true &&(<Form.Text className="text-success">¡Campo válido!</Form.Text>)}
+                    {errorName.valido === false && (<Form.Text className="text-danger">El nombre solo puede contener letras y espacios.</Form.Text>)} 
+                    {errorName.valido === true &&(<Form.Text className="text-success">¡Campo válido!</Form.Text>)}
                 </Form.Group>
 
                 <Form.Group className='box' >
@@ -102,8 +102,8 @@ function Checkout() {
                         onBlur={validacion}
                         required
                     />
-                    {errorPhone.valido == false && (<Form.Text className="text-danger">El telefono solo puede contener numeros y el maximo son 14 dígitos.</Form.Text>)}
-                {errorPhone.valido == true &&(<Form.Text className="text-success">¡Campo válido!</Form.Text>)}  
+                    {errorPhone.valido === false && (<Form.Text className="text-danger">El telefono solo puede contener numeros y el maximo son 14 dígitos.</Form.Text>)}
+                {errorPhone.valido === true &&(<Form.Text className="text-success">¡Campo válido!</Form.Text>)}  
                 </Form.Group>
 
                 <Form.Group className='box'>
@@ -118,17 +118,17 @@ function Checkout() {
                             onBlur={validacion}
                             required
                         />
-                    {errorEmail.valido == false && (<Form.Text className="text-danger">El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.</Form.Text>)}
-                    {errorEmail.valido == true && <Form.Text className="text-success">¡Campo válido!</Form.Text>}   
+                    {errorEmail.valido === false && (<Form.Text className="text-danger">El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.</Form.Text>)}
+                    {errorEmail.valido === true && <Form.Text className="text-success">¡Campo válido!</Form.Text>}   
                 </Form.Group>
 
                 <button 
                     className=" btn btn-primary "
                     type="submit"  
                     disabled={
-                        !(errorName.valido==true  && 
-                        errorPhone.valido==true  && 
-                        errorEmail.valido==true)}
+                        !(errorName.valido===true  && 
+                        errorPhone.valido===true  && 
+                        errorEmail.valido===true)}
                 >
                     Enviar
                 </button>
