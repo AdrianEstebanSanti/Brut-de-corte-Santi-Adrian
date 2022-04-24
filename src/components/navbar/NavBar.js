@@ -1,5 +1,5 @@
 import React from 'react'
-import CartWidget from '../CartWidget'
+import CartWidget from '../CartWidget/CartWidget'
 import { Link } from 'react-router-dom'
 
 
@@ -15,7 +15,7 @@ const NavBar = () => {
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
              </button>
-            <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+            <div className="collapse navbar-collapse justify-content-end ms-4" id="navbarNavAltMarkup">
                 <div className="navbar-nav ">
                     <li className="nav-item dropdown">
                       <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,9 +28,10 @@ const NavBar = () => {
                         <li><Link className="dropdown-item" to="/productos/torrontes">Torrontes</Link></li>
                       </ul>
                     </li>
-                    <Link className="nav-link" to='/' >Elaborá tu Vino</Link>
-                    <Link className="nav-link" to='/'>Cata de Vinos</Link>
-                    <CartWidget/>
+                   <div className='mx-4'>
+                   <CartWidget/>
+                  </div> 
+                    
                  </div>
             </div>
           </div>

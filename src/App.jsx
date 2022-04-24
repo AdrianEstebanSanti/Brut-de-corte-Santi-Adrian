@@ -1,9 +1,4 @@
-
-import './App.css';
-
-
 import NavBar from './components/navbar/NavBar';
-
 import ItemListContainer from './components/ItemListContainer/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer';
 import {
@@ -15,6 +10,7 @@ import {
 import { CartContexProvider } from './components/CartContex/CartContex';
 import  Cart  from './components/Cart/Cart';
 import Checkout from './components/Checkout/Checkout';
+import Footer from './components/Footer/Footer';
 
 
 function App() {
@@ -34,6 +30,7 @@ function App() {
             <Route path='/Checkout' element={<Checkout/>}/>
               
         </Routes> 
+        <Footer/>
       </BrowserRouter>
     </CartContexProvider>
     

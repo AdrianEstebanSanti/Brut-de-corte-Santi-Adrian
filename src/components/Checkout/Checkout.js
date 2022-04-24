@@ -1,10 +1,10 @@
-import { collection, Timestamp, addDoc, writeBatch, query, where, documentId, getDocs} from 'firebase/firestore'
 import React, { useContext, useState } from 'react'
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { CartContex } from '../CartContex/CartContex'
-import { db } from "../../utils/firebase";
 import { MensajeCompraID } from './MensajeCompraID';
-import * as yup from 'yup';
+import Form from 'react-bootstrap/Form';
+import { sendOrder } from './sendOrderFirebase';
+import './Checkout.css';
 
 
 
@@ -12,74 +12,50 @@ function Checkout() {
     const {productosCarrito, getTotalPrice, clear,} = useContext(CartContex)
     const [user, setUser] = useState({name:'', phone:'', email:''});
     
-    const campos = [
-        {title: 'Nombre', inputName: 'name', placeholder:'Tu nombre', type:'text'},
-        {title: 'Telefono', inputName: 'phone',placeholder:'teléfono',type:'text'},
-        {title: 'Email', inputName: 'email',placeholder:'ejemplo@gmail.com',type:'email'},
-    ]
-
     const [orderId, setOrderId] = useState(null)
-
+    const [errorName, setErrorName] = useState({valido:null})
+    const [errorPhone, setErrorPhone] = useState({valido:null})
+    const [errorEmail, setErrorEmail] = useState({valido:null})
+    const expresiones = {
+		nombre: /^[a-zA-ZÀ-ÿ\s]{5,40}$/, // Letras y espacios, pueden llevar acentos.
+		correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+		telefono: /^\d{7,14}$/ // 7 a 14 numeros.
+	}
     
     const onChangeInput = (e)=>{
-        
-        setUser({...user, [e.target.name]: e.target.value})
-       }
-       console.log(user)
-
-
-    const sendOrder = async(e)=>{
-        e.preventDefault ();
-        
-
-       const nombre = user.name;
-        const phone = user.phone;
-        const email = user.email;
-
-        const newOrder = {
-            buyer:{
-                nombre,
-                phone,
-                email
-            },
-            items: productosCarrito,
-            total: getTotalPrice(),
-            date: Timestamp.fromDate(new Date())
-            
-        }
-        const batch = writeBatch(db)
-        const ordersCollection = collection(db, 'orders');
-        const productRef = collection(db, 'items')
-
-        const q = query(productRef, where(documentId(), 'in', productosCarrito.map((item) => item.item.id)))
-        const productos = await getDocs (q);
-        const outOfStock = [];
-        console.log('query', sendOrder)
-
-        productos.docs.forEach((doc)=>{
-            const item = productosCarrito.find((item)=> item.item.id === doc.id)
-            if (doc.data().stock >= item.quantity){
-                batch.update(doc.ref, {
-                    stock: doc.data().stock - item.quantity
-
-                })
-            }else{
-                outOfStock.push(item)
-            }
-        })
-
-        if (outOfStock.length===0) {
-            addDoc(ordersCollection, newOrder)
-            .then((doc)=>{
-                batch.commit()
-                setOrderId(doc.id)
-                clear()
-                console.log(doc.id)
-            })
-        }   else{
-            alert ('items sin stock')
-        }
+        setUser({...user, [e.target.name]: e.target.value});  
     }
+
+       const validacion =()=>{
+       if(expresiones){
+            if(expresiones.nombre.test(user.name)){
+                setErrorName({...errorName, valido: true}); 
+            } else {
+                setErrorName({...errorName, valido: false});     
+            }
+            if(expresiones.telefono.test(user.phone)){
+                setErrorPhone({...errorPhone, valido: true});  
+            } else {
+                setErrorPhone({...errorPhone, valido: false});
+            }
+            if(expresiones.correo.test(user.email)){
+                setErrorEmail({...errorEmail, valido: true});
+            } else {
+                setErrorEmail({...errorEmail, valido: false});    
+            }
+        }  
+    }
+
+    const handlerSubmit =  (e)=>{
+        e.preventDefault();
+        
+            const nombre = user.name;
+            const phone = user.phone;
+            const email = user.email;
+           
+        sendOrder(nombre,phone,email,productosCarrito, getTotalPrice, setOrderId, clear)  
+    }
+    
 
     if (orderId) {
         return <MensajeCompraID order={orderId}/>
@@ -89,62 +65,86 @@ function Checkout() {
         return <Navigate to="/"/>
     }
   return (
-      <div className='container registry'>
-
-        <div className=' form-container '>
-        <div class="form-header">
-                <h2>Firebase Form User</h2>
-            </div>
+      <>
       
-        <form onSubmit={sendOrder} className=' form  needs-validation' >
-        { campos.map(campo=>(
-            <div key={campo.title} className='form-box'>
-            <label htmlFor="validationCustom" className="form-label">{campo.title}:</label>
-            <input 
-                    onChange={onChangeInput}
-                    className="form-control "
-                    type={campo.type}
-                    placeholder={campo.placeholder}
-                    name={campo.inputName}
-                    required
-                />
-               <div className="valid-feedback">¡Campo válido!</div>
-                <div className="invalid-feedback">Debe completar los datos.</div>
-        </div>))}
+    <div className='container registry'>
+        <div className=' form-container '>
+                <div className="form-header">
+                    <h2>Firebase Form User</h2>
+                </div>
+        
+            <Form onSubmit={handlerSubmit} className='formulario needs-validation' >
+                <Form.Group className='box'>
+                    <Form.Label htmlFor="validationCustom" >Nombre</Form.Label>
+                    <Form.Control 
+                        onChange={onChangeInput}
+                        // className="form-control "
+                        type='text'
+                        placeholder='Tu nombre'
+                        name='name'
+                        onKeyUp={validacion}
+                        onBlur={validacion}
+                        required
+                    />
+                    {errorName.valido == false && (<Form.Text className="text-danger">El nombre solo puede contener letras y espacios.</Form.Text>)} 
+                    {errorName.valido == true &&(<Form.Text className="text-success">¡Campo válido!</Form.Text>)}
+                </Form.Group>
 
-        <button
-        //  data-bs-toggle="modal" data-bs-target="#exampleModal"
-         type="submit"  
-         className="btn btn-primary "
-         disabled={
-             !(user.name  && user.email  && user.phone)}
-         >
-             Enviar
-         </button>
-        </form>
+                <Form.Group className='box' >
+                    <Form.Label htmlFor="validationCustom" >Telefono de contacto</Form.Label>
+                    <Form.Control 
+                        onChange={onChangeInput}
+                        // className="form-control "
+                        type='text'
+                        placeholder='Ej. 2615984000 (sin 0 al comienzo ni 15)'
+                        name='phone'
+                        onKeyUp={validacion}
+                        onBlur={validacion}
+                        required
+                    />
+                    {errorPhone.valido == false && (<Form.Text className="text-danger">El telefono solo puede contener numeros y el maximo son 14 dígitos.</Form.Text>)}
+                {errorPhone.valido == true &&(<Form.Text className="text-success">¡Campo válido!</Form.Text>)}  
+                </Form.Group>
 
-                    
-            {/* <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                <div className="modal-header">
-                    <h5 className="modal-title text-secondary" id="exampleModalLabel">¡Gracias!</h5>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body text-success">
-                    Formulario enviado con éxito
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                    
-                </div>
-                </div>
+                <Form.Group className='box'>
+                    <Form.Label htmlFor="validationCustom">Email</Form.Label>
+                    <Form.Control 
+                            onChange={onChangeInput}
+                            // className="form-control "
+                            type='email'
+                            placeholder='usuario@gmail.com'
+                            name='email'
+                            onKeyUp={validacion}
+                            onBlur={validacion}
+                            required
+                        />
+                    {errorEmail.valido == false && (<Form.Text className="text-danger">El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.</Form.Text>)}
+                    {errorEmail.valido == true && <Form.Text className="text-success">¡Campo válido!</Form.Text>}   
+                </Form.Group>
+
+                <button 
+                    className=" btn btn-primary "
+                    type="submit"  
+                    disabled={
+                        !(errorName.valido==true  && 
+                        errorPhone.valido==true  && 
+                        errorEmail.valido==true)}
+                >
+                    Enviar
+                </button>
+            </Form>                          
+        </div> 
+    </div>
+            <div className='container mb-2'>
+                        <Link to='/'>
+                        <button type='button'
+                            className='btn btn-primary mt-4'>
+                            Volver
+                        </button>
+                        </Link>
             </div>
-            </div> */}
-                                   
-    </div> 
-    </div> ) 
-
+    </>
+    ) 
 }
                
 

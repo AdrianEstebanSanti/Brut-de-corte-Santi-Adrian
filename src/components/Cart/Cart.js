@@ -1,14 +1,20 @@
-import { clear } from "@testing-library/user-event/dist/clear"
 import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import { CartContex } from "../CartContex/CartContex"
+import EmptyCart from "../EmptyCart/EmptyCart"
 
 
 const Cart = () =>{
     
 const {productosCarrito, removeItem, clear, getTotalPrice} = useContext(CartContex)
-console.log('cart', productosCarrito)
+
+
+if (productosCarrito.length === 0) {
+    return <EmptyCart/>
+}
+
 return (
+    
     <> 
     
     <div className="container mt-4 mb-2 pt-5">
@@ -20,7 +26,7 @@ return (
     </div>
 
     <div className="container">
-        
+    
             {productosCarrito.map((item) => 
                     <div className=" row cart-item p-0" key={item.item.id} >
                         <div className="col-4 ">
@@ -76,12 +82,14 @@ return (
                       
 
                   </div>
-                  
                 </div>
                 
     </div>
+
     </>
+            
     )
+           
 }
 
 

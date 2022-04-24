@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import Swal from 'sweetalert2'
 
 
 export const CartContex = createContext ()
@@ -9,32 +10,21 @@ export const CartContexProvider = ({children})=>{
   
     const addItem = (item, quantity)=>{
         if(isInCart(item.id)){
-           
-            const newProducts = [...productosCarrito];
+            Swal.fire('UPS!', 'este producto esta repetido en tu carrito', 'warning')
             
-            const productIndex = newProducts.findIndex(prod=>prod.item.id === item.id);
-           
-            console.log(newProducts[productIndex]);
-            newProducts[productIndex].quantity = newProducts[productIndex].quantity + quantity;
-          
-            console.log('productos actualizado',newProducts);
-            setProductosCarrito(newProducts);
         } else{
             
             const newProduct = {
                 item,
                 quantity
             }
-            console.log('newProduct',newProduct)
-           
             setProductosCarrito([...productosCarrito, newProduct]);
         }
     }
+    
 
     const removeItem = (itemId)=>{
-        console.log('itemId', itemId);
         const nuevosProductos = productosCarrito.filter(producto=>producto.item.id !== itemId);
-        console.log('nuevosProductos',nuevosProductos)
         setProductosCarrito(nuevosProductos);
     }
       

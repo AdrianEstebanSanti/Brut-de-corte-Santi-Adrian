@@ -1,11 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import Swal from 'sweetalert2'
 
 
-
-const ItemCount = ({stock, onAdd}) => {
+const ItemCount = ({ onAdd, stock}) => {
 
     const [count, setCount] = useState(0)
+    
+    useEffect(() => {
+        
+        if (stock===0) {
+            Swal.fire('"UPS!', 'no hay mas productos disponibles', 'error')
+        }
+        return () => { }
+    }, [stock])
 
+    useEffect(() => {
+        
+        if (count === stock) {
+            Swal.fire('es tu oportunidad!', 'este es el ultimo disponible', 'info')
+            
+        }
+        
+        return () => { }
+    }, [count])
+    
     
 
     const sumar = () => {
@@ -27,7 +45,7 @@ const ItemCount = ({stock, onAdd}) => {
         <p className="card-text"><small className="text-muted">Stock disponible: {stock}</small></p>
             <button className='buttonCart btn btn-outline-primary'
                 onClick={restar}
-                disabled={stock === 0} >-</button>
+                disabled={count === 0} >-</button>
 
             <span className='count' >{count} </span>
 
@@ -39,7 +57,7 @@ const ItemCount = ({stock, onAdd}) => {
                 <button 
                           className='onAdd btn btn-primary' 
                           onClick={()=>{onAdd(count);reset()}}
-                          disabled={stock === 0} >
+                          disabled={count === 0} >
                             Añadir al Carrito
                 </button>
         </div>

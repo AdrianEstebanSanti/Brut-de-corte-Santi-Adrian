@@ -1,0 +1,84 @@
+.container-position{
+    position: relative;
+    width: 100%;
+}
+.btcontainer-footer{
+    background-color: rgb(19, 19, 19);
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    
+}
+.btcontainer-footer > a{
+    align-self: center;
+}
+h4{
+    font-size: 17px;
+    
+}
+.container-social{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    
+}
+
+.social{
+    width: 30px;
+    
+}
+.social svg{
+    transition: all 300ms ease;
+}
+
+.contact{
+   display: flex;
+   align-items: center;
+   justify-content: start;
+   margin: 8px 0 8px 0;
+   
+
+   
+}
+
+.contact > h6{
+    font-size: 10px;
+    margin: 0;
+    margin-left: 4px;
+}
+
+.icon{
+    width: 12px;
+    margin-right:5px;
+}
+
+.social svg:hover{
+    transform: scale(1.2);
+}
+
+
+
+@media (max-width: 550px){
+    h4{
+        font-size: 12px;
+    }
+    .contact > h6{
+        font-size: 9px;
+    
+    }
+    .social{
+        width: 17px;
+    }
+
+    .contact{
+        width: 150px;
+    }
+}
+
+@media (max-width:300px){
+    .title-redes{
+        text-align: center;
+    }
+}
