@@ -6,7 +6,7 @@ const Footer = () => {
         <div className= "container-position mt-4">
             <footer className='btcontainer-footer'>
             <a href='/'>
-               <img src='./LogoBrutdeCorte.png' width='75'/>
+               <img src='./LogoBrutdeCorte.png' width='75' alt='logo'/>
             </a>
                 <div style={{ width: "50%" }}>
                

@@ -9,7 +9,7 @@ const NavBar = () => {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
             <a href='/'>
-               <img src='./logo-BrutdeCorte-icon-nav.png' width='70'/>
+               <img src='./logo-BrutdeCorte-icon-nav.png' width='70' alt='logop'/>
             </a>
             < Link className='nav-link text-white fw-bold fs-6' to='/'>Brut de Corte</Link>
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
