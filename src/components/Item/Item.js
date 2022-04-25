@@ -6,8 +6,8 @@ function Item({producto}) {
   
 
   return (
-        <div className=' col mb-4'>
-        <div className="card cardContainer h-100  ">
+        <div className=' col mb-4 '>
+        <div className="card cardContainer h-100 ">
           <img src={producto.image} className="card-img-top w-50 mx-auto" alt={producto.producto}/>
             <div className="card-body">
               <h5 className="card-title mb-3">{producto.producto}</h5>
